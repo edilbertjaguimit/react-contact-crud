@@ -11,17 +11,43 @@ async function getData(): Promise<Payment[]> {
             status: 'pending',
             email: 'm@example.com',
         },
+        {
+            id: '728ed52f',
+            amount: 100,
+            status: 'pending',
+            email: 'm@example.com',
+        },
+        {
+            id: '728ed52f',
+            amount: 100,
+            status: 'pending',
+            email: 'm@example.com',
+        },
+        {
+            id: '728ed52f',
+            amount: 100,
+            status: 'pending',
+            email: 'm@example.com',
+        },
+        {
+            id: '728ed52f',
+            amount: 100,
+            status: 'pending',
+            email: 'm@example.com',
+        },
+        {
+            id: '728ed52f',
+            amount: 100,
+            status: 'pending',
+            email: 'm@example.com',
+        },
     ];
 }
 
-export default function DemoPage() {
+export default function CustomTable() {
     const [data, setData] = useState<Payment[]>([]);
     useState(() => {
         getData().then((data) => setData(data));
     });
-    return (
-        <div className='container mx-auto py-10'>
-            <DataTable columns={columns} data={data} />
-        </div>
-    );
+    return <DataTable columns={columns} data={data} />;
 }
