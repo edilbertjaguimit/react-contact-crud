@@ -5,9 +5,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ColumnDef } from '@tanstack/react-table';
 import { Button } from '@/components/ui/button';
 import ModalDialog from '../custom/ModalDialog';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
 import { ArrowUpDown } from 'lucide-react';
+import EditContactForm from './edit-contact-form';
+import { useIsLoadingStore } from '@/stores/IsLoadingStore';
+import DeleteContactForm from './delete-contact-form';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,7 +23,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
     {
         id: 'select',
         header: ({ table }) => {
-            console.log('Header Checkbox', table);
+            // console.log('Header Checkbox', table);
             return (
                 <Checkbox
                     checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
@@ -32,7 +33,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
             );
         },
         cell: ({ row }) => {
-            console.log('Row Checkbox', row);
+            // console.log('Row Checkbox', row);
             return <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label='Select row' />;
         },
         enableSorting: false,
@@ -85,9 +86,11 @@ export const contactColumns: ColumnDef<Contact>[] = [
     {
         id: 'actions',
         cell: ({ row }) => {
-            const payment = row.original;
-            console.log('payment');
-            console.log(payment);
+            const contact = row.original;
+            const isLoading = useIsLoadingStore((state) => state.isLoading);
+            // console.log('payment');
+            // console.log(contact);
+
             return (
                 // <DropdownMenu>
                 //     <DropdownMenuTrigger asChild>
@@ -113,23 +116,12 @@ export const contactColumns: ColumnDef<Contact>[] = [
                         }
                         title='Edit Contact'
                         description={`Make changes to your profile here. Click save when you're done.`}
-                        body={
-                            <div className='grid gap-4 py-4'>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='name' className='text-right'>
-                                        Name
-                                    </Label>
-                                    <Input id='name' value='Pedro Duarte' className='col-span-3' />
-                                </div>
-                                <div className='grid grid-cols-4 items-center gap-4'>
-                                    <Label htmlFor='username' className='text-right'>
-                                        Username
-                                    </Label>
-                                    <Input id='username' value='@peduarte' className='col-span-3' />
-                                </div>
-                            </div>
+                        body={<EditContactForm contact={contact} />}
+                        footer={
+                            <Button type='submit' form='contactFormUpdate' disabled={isLoading}>
+                                {isLoading ? 'Saving...' : 'Save Changes'}
+                            </Button>
                         }
-                        footer={<Button type='submit'>Save changes</Button>}
                     />
                     <ModalDialog
                         trigger={
@@ -139,11 +131,7 @@ export const contactColumns: ColumnDef<Contact>[] = [
                         }
                         title='Delete Contact'
                         description={`Are you sure you want to delete this contact? This action cannot be undone.`}
-                        footer={
-                            <Button type='submit' variant='destructive'>
-                                Delete
-                            </Button>
-                        }
+                        footer={<DeleteContactForm contactId={contact.contactId} />}
                     />
                 </div>
             );

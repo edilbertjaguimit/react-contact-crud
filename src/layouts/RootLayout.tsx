@@ -14,6 +14,7 @@ import {
     navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Toaster } from 'sonner';
 // import { NavigationMenuContent, NavigationMenuList, NavigationMenuTrigger } from '@radix-ui/react-navigation-menu';
 
 const RootLayout = () => {

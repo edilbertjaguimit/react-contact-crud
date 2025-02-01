@@ -48,7 +48,7 @@ export function ContactDataTable<TData, TValue>({ columns, data }: DataTableProp
             rowSelection,
         },
     });
-    console.log('Table', data);
+    // console.log('Table', data);
 
     return (
         <div>
@@ -70,7 +70,7 @@ export function ContactDataTable<TData, TValue>({ columns, data }: DataTableProp
                             .getAllColumns()
                             .filter((column) => column.getCanHide())
                             .map((column) => {
-                                console.log('Column', column);
+                                // console.log('Column', column);
                                 return (
                                     <DropdownMenuCheckboxItem
                                         key={column.id}
@@ -92,7 +92,7 @@ export function ContactDataTable<TData, TValue>({ columns, data }: DataTableProp
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
-                                    console.log('Header', header);
+                                    // console.log('Header', header);
                                     return (
                                         <TableHead key={header.id}>
                                             {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
@@ -104,27 +104,15 @@ export function ContactDataTable<TData, TValue>({ columns, data }: DataTableProp
                     </TableHeader>
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
-                            table.getRowModel().rows.map(
-                                (row) => (
-                                    console.log('Row', row.original),
-                                    (
-                                        <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                                            {row
-                                                .getVisibleCells()
-                                                .map(
-                                                    (cell) => (
-                                                        console.log('Cell', cell),
-                                                        (
-                                                            <TableCell key={cell.id}>
-                                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                            </TableCell>
-                                                        )
-                                                    )
-                                                )}
-                                        </TableRow>
-                                    )
-                                )
-                            )
+                            table.getRowModel().rows.map((row) => (
+                                // console.log('Row', row.original),
+                                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                                    {row.getVisibleCells().map((cell) => (
+                                        // console.log('Cell', cell),
+                                        <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className='h-24 text-center'>
